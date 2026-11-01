@@ -1,0 +1,25 @@
+/* ==========================================================
+   tablet.css  -  screens 768px and wider   (loaded with media="(min-width: 768px)")
+   The tab bar moves up into the logo header.
+   ========================================================== */
+.brand { justify-content: center; padding: 8px 24px 4px; }
+.brand-logo { width: 56px; height: 56px; }
+.brand-name { font-size: 1.5rem; }
+
+.nav { position: static; display: flex; justify-content: center; gap: 6px; padding: 0 16px; background: none; border: 0; box-shadow: none; }
+.nav-btn { flex-direction: row; gap: 8px; margin: 0; padding: 8px 18px; color: var(--whitewash); border: 0; border-radius: var(--r-md) var(--r-md) 0 0; }
+.nav-btn small { color: var(--gold-light); font-size: .7rem; }
+.nav-btn.is-active { color: var(--kemar); background: var(--whitewash); }
+.nav-btn.is-active small { color: var(--muted); }
+
+.main { padding-bottom: 28px; }
+.linkbar { padding: 8px 24px; }
+
+.hero { --art-h: 250px; }
+.hero-inner { padding: 78px 24px calc(var(--art-h) + 8px); }
+
+.panel { padding: 18px 24px 0; }
+.window { padding: 42px 28px 26px; }
+.options { grid-template-columns: 1fr 1fr; }
+.options .focus { grid-column: 1 / -1; }
+.toast { bottom: 28px; }

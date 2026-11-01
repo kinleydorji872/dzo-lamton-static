@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+*.log
+# models are too big for GitHub (100 MB file limit); visitors download them from Hugging Face
+models/
+
+secrets.json
+cache.jsonl
+__pycache__/
+.env
+usage.json

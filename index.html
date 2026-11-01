@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="dz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10264a">
+  <title>རྫོང་ཁ་ལམ་སྟོན། · Dzongkha Lamton</title>
+  <meta name="description" content="Dzongkha translator, chatbot and summariser by KD Smart System.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="images/icon-192.png">
+  <link rel="apple-touch-icon" href="images/icon-192.png">
+
+  <!-- Fonts: Noto Serif Tibetan is the backup when DDC Joyig is not installed; Figtree is for English labels -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Noto+Serif+Tibetan:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Styles, one file per job. Phone styles first; tablet and desktop load by screen width. -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pdf.css">
+  <link rel="stylesheet" href="css/tablet.css" media="(min-width: 768px)">
+  <link rel="stylesheet" href="css/desktop.css" media="(min-width: 1100px)">
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== LOGO: top bar on phones, left sidebar on desktop ===== -->
+  <aside class="side">
+    <div class="brand">
+      <img class="brand-logo" src="images/logo.png" alt="KD Smart System logo" width="196" height="196">
+      <div class="brand-text">
+        <strong lang="dz" class="brand-name">རྫོང་ཁ་ལམ་སྟོན།</strong>
+        <span class="brand-en">Dzongkha Lamton</span>
+        <span class="brand-by">by KD Smart System</span>
+      </div>
+    </div>
+
+    <nav class="nav" role="tablist" aria-label="Main">
+      <button class="nav-btn is-active" role="tab" data-tab="translate" aria-selected="true">
+        <svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#translate"/></svg>
+        <span><b lang="dz">ཡིག་སྒྱུར།</b><small>Translate</small></span>
+      </button>
+      <button class="nav-btn" role="tab" data-tab="chat" aria-selected="false">
+        <svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#chat"/></svg>
+        <span><b lang="dz">ཁ་བརྡ།</b><small>Chatbot</small></span>
+      </button>
+      <button class="nav-btn" role="tab" data-tab="summary" aria-selected="false">
+        <svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#summary"/></svg>
+        <span><b lang="dz">བསྡུས་དོན།</b><small>Summary</small></span>
+      </button>
+      <button class="nav-btn" role="tab" data-tab="sources" aria-selected="false">
+        <svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#links"/></svg>
+        <span><b lang="dz">སྦྲེལ་ཐག།</b><small>Links</small></span>
+      </button>
+    </nav>
+
+    <p class="side-foot">Smart Solutions, Better Future</p>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <!-- First-visit notice + model download progress (filled in by js/app.js) -->
+    <div class="alert is-info" id="engine-bar" role="status" hidden></div>
+
+    <!-- External links header: Dzongkha resources (list is in js/links.js) -->
+    <nav class="linkbar" aria-label="Dzongkha links">
+      <span class="linkbar-label" lang="dz">སྦྲེལ་ཐག།</span>
+      <ul id="linkbar-list"></ul>
+      <a href="#sources" id="linkbar-all" class="linkbar-all">All links</a>
+    </nav>
+
+    <!-- Welcome: a dzong at dawn (art is in images/hero.svg and images/flags.svg) -->
+    <header class="hero">
+      <div class="hero-inner">
+        <h1 class="welcome" lang="dz">༆ ༼ འབྱོན་པར་ལེགས་སོ  ༽༎་</h1>
+        <p class="hero-name" lang="dz">རྫོང་ཁ་ལམ་སྟོན།</p>
+        <p class="hero-tag">Translate, chat and summarise in Dzongkha</p>
+      </div>
+      <div class="kemar" aria-hidden="true"></div>
+    </header>
+
+    <!-- ===== ENGINE: the backend's AI (recommended) or offline models ===== -->
+    <details class="engine-box" id="engine-box">
+      <summary><b>Engine</b> <span id="engine-state" class="eng-state"></span></summary>
+      <div class="eng-body">
+        <div class="seg eng-seg" role="radiogroup" aria-label="Engine">
+          <label><input type="radio" name="eng-mode" value="cloud" checked><span><b class="en">Online</b><small>Best Dzongkha grammar. Recommended</small></span></label>
+          <label><input type="radio" name="eng-mode" value="local"><span><b class="en">Offline</b><small>Runs in this browser. Weaker Dzongkha, slow</small></span></label>
+        </div>
+        <p class="acc-note cloud-only" id="eng-conn-text" aria-live="polite"></p>
+        <div class="eng-options" id="eng-options">
+          <label class="check"><input type="checkbox" id="eng-space" checked><span>Put spaces between Dzongkha words and phrases (easier to read)</span></label>
+          <label class="check cloud-only"><input type="checkbox" id="eng-proof"><span>Check every translation and summary a second time (slower)</span></label>
+          <label class="check cloud-only"><input type="checkbox" id="eng-proof-chat" checked><span>Also check chat answers a second time (slower)</span></label>
+          <label class="check"><input type="checkbox" id="eng-prefetch" checked><span>Download the offline backup models automatically in the background (about 1 GB, once)</span></label>
+          <div class="field eng-fb-field"><label class="field-label" for="eng-fb"><small>If the free online service fails</small></label>
+            <select id="eng-fb"><option value="ask">Ask me what to do</option><option value="local">Use the local (offline) model automatically</option><option value="never">Do nothing, just show the error</option></select></div>
+          <div class="eng-models" id="eng-models" hidden>
+            <p class="acc-note"><b>Offline models</b>: downloaded one time into the <code>models</code> folder, then never again.</p>
+            <ul id="eng-model-list"></ul>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ===== 1. TRANSLATE ===== -->
+    <section class="panel is-active" id="tab-translate" role="tabpanel">
+      <div class="window">
+        <div class="eave" aria-hidden="true"></div>
+        <h2 class="panel-title"><span lang="dz">ཡིག་སྒྱུར་དང་ཁྱད་བསྡུས།</span><small>Translate and explain fully in Dzongkha</small></h2>
+        <p class="hint">Any language. Type, paste or speak your text, or add an image, PDF or Word file of any length.</p>
+
+        <label class="visually-hidden" for="tr-text">Text to translate</label>
+        <textarea id="tr-text" rows="7" placeholder="Type or paste text here…  ཡིག་ཆ་འདི་ནང་བཀོད།"></textarea>
+        <div class="voicebar" data-voice-for="tr-text">
+          <button type="button" class="mic" data-mic aria-pressed="false">
+            <svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#mic"/></svg>
+            <span><b lang="dz">སྒྲ་འཛིན།</b><small>Record voice</small></span>
+          </button>
+          <label class="mic-langwrap"><span class="visually-hidden">Spoken language</span>
+            <select class="mic-lang">
+              <option value="auto">Auto-detect</option>
+              <option value="english">English</option>
+              <option value="hindi">हिन्दी Hindi</option>
+              <option value="nepali">नेपाली Nepali</option>
+              <option value="chinese">中文 Chinese</option>
+              <option value="bengali">বাংলা Bengali</option>
+              <option value="japanese">日本語 Japanese</option>
+              <option value="french">Français</option>
+            </select>
+          </label>
+          <span class="mic-status" aria-live="polite"></span>
+        </div>
+        <div class="drop" id="tr-drop" tabindex="0" role="button" aria-label="Add an image, PDF or Word file">
+          <input type="file" id="tr-files" multiple hidden accept="image/*,.pdf,.docx,.txt,.md,.csv">
+          <svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#upload"/></svg>
+          <span><b lang="dz">ཡིག་ཆ་བཀོད།</b><small>Add an image, PDF or Word file – or drop it here</small></span>
+        </div>
+        <ul class="chips" id="tr-chips"></ul>
+        <div class="field src">
+          <label class="field-label" for="tr-lang"><b lang="dz">ཡིག་སྐད།</b><small>Language of your text or picture</small></label>
+          <select id="tr-lang" class="lang-select" data-lang-select></select>
+        </div>
+        <div class="field src">
+          <label class="field-label"><b lang="dz">ཡང་དག་པ།</b><small>Translation quality</small></label>
+          <select data-quality-select>
+            <option value="1">Fast</option>
+            <option value="3">Better (recommended)</option>
+            <option value="5">Best (slowest)</option>
+          </select>
+        </div>
+        <label class="check"><input type="checkbox" id="tr-explain"><span><b lang="dz">དོན་འགྲེལ།</b> <small>Also explain the meaning in simple words (uses the chat model, extra download)</small></span></label>
+        <div class="actions">
+          <button class="btn btn-primary" id="tr-run"><span lang="dz">ཡིག་སྒྱུར་འབད།</span><small>Translate</small></button>
+          <button class="btn btn-ghost" id="tr-fix"><span lang="dz">ཞུ་དག</span><small>Fix spelling</small></button>
+          <button class="btn btn-ghost" id="tr-clear"><span lang="dz">བསུབ།</span><small>Clear</small></button>
+        </div>
+        <div class="progress" id="tr-progress" hidden><i></i><span></span></div>
+        <div class="changes" id="tr-changes" hidden></div>
+        <div class="result" id="tr-result" hidden>
+          <div class="result-bar">
+            <b lang="dz">འབྲས་བུ།</b>
+            <div class="tools">
+              <button class="tool" data-act="fix" data-target="tr-out"><span lang="dz">ཞུ་དག</span><small>Fix spelling</small></button>
+              <button class="tool" data-act="copy" data-target="tr-out"><span lang="dz">འདྲ་བཤུས།</span><small>Copy</small></button>
+              <button class="tool" data-act="docx" data-target="tr-out" data-title="ཡིག་སྒྱུར།"><span>Word</span><small lang="dz">ཕབ་ལེན།</small></button>
+              <button class="tool" data-act="pdf" data-target="tr-out" data-title="ཡིག་སྒྱུར།"><span>PDF</span><small lang="dz">ཕབ་ལེན།</small></button>
+            </div>
+          </div>
+          <div class="out dz-text" id="tr-out" lang="dz"></div>
+          <p class="used" id="tr-used"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. CHATBOT ===== -->
+    <section class="panel" id="tab-chat" role="tabpanel">
+      <div class="window window-chat">
+        <div class="eave" aria-hidden="true"></div>
+        <h2 class="panel-title"><span lang="dz">ཁ་བརྡ་འབད།</span><small>Ask in any language. Answers always come in Dzongkha</small></h2>
+        <div class="chat-wrap">
+          <button type="button" class="mini chat-side-toggle" id="chat-side-toggle" aria-expanded="false" aria-controls="chat-side">Chats</button>
+        <aside class="chat-side" id="chat-side" aria-label="Your chats">
+          <button type="button" class="btn btn-primary chat-newbtn" id="chat-new2"><span lang="dz">ཁ་བརྡ་གསར་པ།</span><small>New chat</small></button>
+          <ul class="chat-list" id="chat-list"></ul>
+          <p class="acc-note">Chats are saved only on this device.</p>
+        </aside>
+        <div class="chat-main">
+        <div class="field src">
+          <label class="field-label" for="chat-model"><b lang="dz">དཔེ་ཚད།</b><small>Chat model</small></label>
+          <select id="chat-model">
+            <option value="llm_fast">Fast · 0.5B (≈400 MB)</option>
+            <option value="llm_better">Better · 1.5B (≈1.2 GB, needs WebGPU)</option>
+            <option value="ollama">Best · Ollama on your computer (free)</option>
+          </select>
+        </div>
+        <div class="field src" id="ollama-row" hidden>
+          <label class="field-label" for="ollama-model"><b lang="dz">མིང་།</b><small>Ollama model name</small></label>
+          <input type="text" id="ollama-model" value="qwen2.5:7b" autocomplete="off" spellcheck="false">
+          <p class="acc-note" id="ollama-note" aria-live="polite"></p>
+        </div>
+        <div class="field src">
+          <label class="field-label"><b lang="dz">ཡང་དག་པ།</b><small>Translation quality</small></label>
+          <select data-quality-select>
+            <option value="1">Fast</option>
+            <option value="3">Better (recommended)</option>
+            <option value="5">Best (slowest)</option>
+          </select>
+        </div>
+
+        <div class="result-bar chat-tools">
+          <b lang="dz">ཁ་བརྡ།</b>
+          <div class="tools">
+            <button class="tool" data-act="copy" data-target="chat-sel"><span lang="dz">འདྲ་བཤུས།</span><small>Copy</small></button>
+            <button class="tool" data-act="docx" data-target="chat-sel" data-title="ཁ་བརྡ།"><span>Word</span><small lang="dz">ཕབ་ལེན།</small></button>
+            <button class="tool" data-act="pdf" data-target="chat-sel" data-title="ཁ་བརྡ།"><span>PDF</span><small lang="dz">ཕབ་ལེན།</small></button>
+            <button class="tool" id="chat-new"><span lang="dz">གསར་པ།</span><small>New chat</small></button>
+          </div>
+          <p class="sel-note" id="chat-sel-note">Tick the messages you want. Copy, Word and PDF then use only those. Nothing ticked = the whole chat.</p>
+        </div>
+
+        <div class="chat-log" id="chat-log" aria-live="polite">
+          <div class="msg bot"><img src="images/icon-192.png" alt=""><div class="bubble dz-text" lang="dz">འབྱོན་པར་ལེགས་སོ། ཁྱེད་ཀྱིས་དྲི་བ་གང་འདྲ་ཡང་ སྐད་ཡིག་གང་ནང་ཡང་འདྲི་ཆོག། ངས་རྫོང་ཁ་ནང་ལན་འདེབས་འོང་།</div></div>
+        </div>
+        <ul class="chips" id="chat-chips"></ul>
+
+        <div class="voicebar" data-voice-for="chat-input">
+          <button type="button" class="mic" data-mic aria-pressed="false">
+            <svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#mic"/></svg>
+            <span><b lang="dz">སྒྲ་འཛིན།</b><small>Record voice</small></span>
+          </button>
+          <label class="mic-langwrap"><span class="visually-hidden">Spoken language</span>
+            <select class="mic-lang">
+              <option value="auto">Auto-detect</option>
+              <option value="english">English</option>
+              <option value="hindi">हिन्दी Hindi</option>
+              <option value="nepali">नेपाली Nepali</option>
+              <option value="chinese">中文 Chinese</option>
+              <option value="bengali">বাংলা Bengali</option>
+              <option value="japanese">日本語 Japanese</option>
+              <option value="french">Français</option>
+            </select>
+          </label>
+          <span class="mic-status" aria-live="polite"></span>
+        </div>
+        <div class="changes" id="chat-changes" hidden></div>
+        <form class="composer" id="chat-form">
+          <input type="file" id="chat-files" multiple hidden accept="image/*,.pdf,.docx,.txt,.md,.csv">
+          <button type="button" class="icon-btn" id="chat-attach" aria-label="Attach a file"><svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#attach"/></svg></button>
+          <button type="button" class="icon-btn" id="chat-fix" aria-label="Fix spelling of my message" title="ཞུ་དག · Fix spelling"><svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#check"/></svg></button>
+          <textarea id="chat-input" rows="1" placeholder="དྲི་བ་འདྲི། Ask anything…" aria-label="Your question"></textarea>
+          <button class="btn btn-primary send" type="submit" id="chat-send"><span lang="dz">གཏང་།</span></button>
+        </form>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. SUMMARY ===== -->
+    <section class="panel" id="tab-summary" role="tabpanel">
+      <div class="window">
+        <div class="eave" aria-hidden="true"></div>
+        <h2 class="panel-title"><span lang="dz">བསྡུས་དོན་བཟོ།</span><small>Summarise in Dzongkha, your way</small></h2>
+
+        <label class="visually-hidden" for="su-text">Text to summarise</label>
+        <textarea id="su-text" rows="6" placeholder="Type or paste text here…  ཡིག་ཆ་འདི་ནང་བཀོད།"></textarea>
+        <div class="voicebar" data-voice-for="su-text">
+          <button type="button" class="mic" data-mic aria-pressed="false">
+            <svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#mic"/></svg>
+            <span><b lang="dz">སྒྲ་འཛིན།</b><small>Record voice</small></span>
+          </button>
+          <label class="mic-langwrap"><span class="visually-hidden">Spoken language</span>
+            <select class="mic-lang">
+              <option value="auto">Auto-detect</option>
+              <option value="english">English</option>
+              <option value="hindi">हिन्दी Hindi</option>
+              <option value="nepali">नेपाली Nepali</option>
+              <option value="chinese">中文 Chinese</option>
+              <option value="bengali">বাংলা Bengali</option>
+              <option value="japanese">日本語 Japanese</option>
+              <option value="french">Français</option>
+            </select>
+          </label>
+          <span class="mic-status" aria-live="polite"></span>
+        </div>
+        <div class="drop" id="su-drop" tabindex="0" role="button" aria-label="Add an image, PDF or Word file">
+          <input type="file" id="su-files" multiple hidden accept="image/*,.pdf,.docx,.txt,.md,.csv">
+          <svg class="ico" aria-hidden="true" focusable="false"><use href="images/icons.svg#upload"/></svg>
+          <span><b lang="dz">ཡིག་ཆ་བཀོད།</b><small>Add an image, PDF or Word file – or drop it here</small></span>
+        </div>
+        <ul class="chips" id="su-chips"></ul>
+
+        <div class="options">
+          <div class="field"><span class="field-label"><b lang="dz">རིང་ཚད།</b><small>Length</small></span><div class="seg" role="radiogroup" aria-label="Length"><label><input type="radio" name="su-length" value="short"><span><b lang="dz">ཐུང་ཀུ།</b><small>Short</small></span></label><label><input type="radio" name="su-length" value="medium" checked><span><b lang="dz">འབྲིང་།</b><small>Medium</small></span></label><label><input type="radio" name="su-length" value="detailed"><span><b lang="dz">རྒྱས་པ།</b><small>Detailed</small></span></label></div></div>
+          <div class="field"><span class="field-label"><b lang="dz">རྣམ་པ།</b><small>Style</small></span><div class="seg" role="radiogroup" aria-label="Style"><label><input type="radio" name="su-style" value="paragraph" checked><span><b lang="dz">ཚན་པ།</b><small>Paragraph</small></span></label><label><input type="radio" name="su-style" value="bullets"><span><b lang="dz">ཐོ་ཡིག།</b><small>Bullets</small></span></label><label><input type="radio" name="su-style" value="keypoints"><span><b lang="dz">གནད་དོན།</b><small>Key points</small></span></label><label><input type="radio" name="su-style" value="simple"><span><b lang="dz">སླ་པོ།</b><small>Very simple</small></span></label></div></div>
+          <label class="focus"><b lang="dz">དམིགས་གཏད།</b> <small>Focus (optional), for example “dates and money”</small>
+            <input type="text" id="su-focus" maxlength="300" placeholder="…">
+          </label>
+        </div>
+        <div class="field src">
+          <label class="field-label" for="su-lang"><b lang="dz">ཡིག་སྐད།</b><small>Language of your text or picture</small></label>
+          <select id="su-lang" class="lang-select" data-lang-select></select>
+        </div>
+        <div class="field src">
+          <label class="field-label"><b lang="dz">ཡང་དག་པ།</b><small>Translation quality</small></label>
+          <select data-quality-select>
+            <option value="1">Fast</option>
+            <option value="3">Better (recommended)</option>
+            <option value="5">Best (slowest)</option>
+          </select>
+        </div>
+        <label class="check"><input type="checkbox" id="su-smart"><span><b lang="dz">ཤེས་ལྡན།</b> <small>Smarter summary (written by the chat model, extra download; the default picks the best sentences)</small></span></label>
+        <div class="actions">
+          <button class="btn btn-primary" id="su-run"><span lang="dz">བསྡུས་དོན་བཟོ།</span><small>Summarise</small></button>
+          <button class="btn btn-ghost" id="su-fix"><span lang="dz">ཞུ་དག</span><small>Fix spelling</small></button>
+          <button class="btn btn-ghost" id="su-clear"><span lang="dz">བསུབ།</span><small>Clear</small></button>
+        </div>
+        <div class="progress" id="su-progress" hidden><i></i><span></span></div>
+        <div class="changes" id="su-changes" hidden></div>
+        <div class="result" id="su-result" hidden>
+          <div class="result-bar">
+            <b lang="dz">འབྲས་བུ།</b>
+            <div class="tools">
+              <button class="tool" data-act="fix" data-target="su-out"><span lang="dz">ཞུ་དག</span><small>Fix spelling</small></button>
+              <button class="tool" data-act="copy" data-target="su-out"><span lang="dz">འདྲ་བཤུས།</span><small>Copy</small></button>
+              <button class="tool" data-act="docx" data-target="su-out" data-title="བསྡུས་དོན།"><span>Word</span><small lang="dz">ཕབ་ལེན།</small></button>
+              <button class="tool" data-act="pdf" data-target="su-out" data-title="བསྡུས་དོན།"><span>PDF</span><small lang="dz">ཕབ་ལེན།</small></button>
+            </div>
+          </div>
+          <div class="out dz-text" id="su-out" lang="dz"></div>
+          <p class="used" id="su-used"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LINKS ===== -->
+    <section class="panel" id="tab-sources" role="tabpanel">
+      <div class="window">
+        <div class="eave" aria-hidden="true"></div>
+        <h2 class="panel-title"><span lang="dz">རྫོང་ཁའི་སྦྲེལ་ཐག།</span><small>Dzongkha dictionaries, fonts, keyboards and news. Links open in a new tab</small></h2>
+        <label class="visually-hidden" for="links-search">Search links</label>
+        <input type="text" id="links-search" class="links-search" placeholder="Search links: dictionary, font, keyboard, news" autocomplete="off">
+        <p class="hint" id="links-count"></p>
+        <div id="links-dir"></div>
+        <p class="hint">Output font: <b>DDC Joyig, size 12</b>. To install it, see <code>public/fonts/README.txt</code>.</p>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>© KD Smart System</span> · <span lang="dz">རྫོང་ཁ་ལམ་སྟོན།</span>
+      <p class="foot-note" id="model-status"></p>
+      <p class="foot-note">Online mode is served by the backend of this system. Offline mode runs open-source models in your browser: Meta NLLB-200 (translation, CC-BY-NC 4.0), Qwen2.5 (chat), Whisper (voice), Tesseract (reading pictures). Machine translation can make mistakes: please have important text checked by a Dzongkha speaker.</p>
+    </footer>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Everything below is our own copy of open-source libraries (see vendor/). Nothing is sent to a server. -->
+<script src="vendor/html2pdf.bundle.min.js" defer></script>
+<script src="vendor/docx.min.js" defer></script>
+<script src="js/links.js" defer></script>
+<script src="js/prompts.js" defer></script>
+<script src="js/cloud.js" defer></script>
+<script src="js/engine.js" defer></script>
+<script src="js/spell.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/voice.js" defer></script>
+</body>
+</html>

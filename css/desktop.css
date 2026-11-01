@@ -1,0 +1,41 @@
+/* ==========================================================
+   desktop.css  -  screens 1100px and wider   (loaded with media="(min-width: 1100px)")
+   The logo becomes a tall sidebar on the left; the links header sticks to the top.
+   ========================================================== */
+.app { flex-direction: row; }
+
+.side {
+  position: sticky; top: 0; align-self: flex-start; flex: none; width: 290px; height: 100vh; overflow-y: auto;
+  display: flex; flex-direction: column; padding: 30px 18px 18px;
+  border-bottom: 0; border-right: 5px solid var(--gold);
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(45, 95, 168, .45), transparent 70%),
+    linear-gradient(180deg, var(--indigo-800), var(--indigo-900));
+}
+.brand { flex-direction: column; gap: 14px; padding: 0 0 18px; text-align: center; }
+.brand-logo { width: 196px; height: 196px; border-width: 5px; box-shadow: 0 0 0 6px rgba(240, 207, 122, .25), 0 12px 30px rgba(0, 0, 0, .45); }
+.brand-text { align-items: center; }
+.brand-name { font-size: 2rem; line-height: 1.6; }
+.brand-en { font-size: 1rem; }
+.brand-by { display: block; margin-top: 2px; font-size: var(--fs-sm); color: var(--gold-light); }
+
+.nav { flex-direction: column; gap: 8px; justify-content: flex-start; padding: 8px 0; }
+.nav-btn { padding: 12px 16px; border: 1px solid rgba(240, 207, 122, .3); border-radius: var(--r-md); }
+.nav-btn .ico { width: 26px; height: 26px; }
+.nav-btn b { font-size: 1.2rem; }
+.nav-btn:hover { background: rgba(240, 207, 122, .14); }
+.nav-btn.is-active { background: var(--whitewash); border-color: var(--gold); }
+.side-foot { display: block; margin-top: auto; text-align: center; font-size: var(--fs-sm); color: var(--gold-light); }
+
+.main { flex: 1; min-width: 0; }
+.linkbar { position: sticky; top: 0; z-index: 25; padding: 8px 36px; }
+.hero { --art-h: 300px; }
+.hero-inner { padding: 96px 36px calc(var(--art-h) + 8px); }
+
+.panel { padding: 26px 36px 0; }
+.chat-log { height: 460px; }
+
+/* chats list becomes a left column on wide screens */
+.chat-wrap { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 14px; align-items: start; }
+.chat-side { display: block; margin-bottom: 0; }
+.chat-side-toggle { display: none; }

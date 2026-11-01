@@ -1,0 +1,112 @@
+/* ==========================================================
+   layout.css  -  page shell. PHONE first:
+     top bar (logo)  +  bottom tab bar  +  links header  +  dzong hero  +  panels
+   Tablet and desktop changes live in tablet.css and desktop.css.
+   ========================================================== */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ---------- logo bar (becomes the left sidebar on desktop) ---------- */
+.side {
+  position: sticky; top: 0; z-index: 30;
+  padding-top: env(safe-area-inset-top);
+  color: var(--whitewash);
+  background: linear-gradient(180deg, var(--indigo-800), var(--indigo-900));
+  border-bottom: 3px solid var(--gold);
+}
+.brand { display: flex; align-items: center; gap: 12px; padding: 6px 14px; }
+.brand-logo { width: 44px; height: 44px; flex: none; border-radius: 50%; object-fit: cover; background: #fff; border: 2px solid var(--gold); }
+.brand-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
+.brand-name { font-family: var(--dz); font-size: 1.25rem; font-weight: 400; color: var(--gold-light); }
+.brand-en { font-size: var(--fs-sm); font-weight: 600; letter-spacing: .02em; }
+.brand-by, .side-foot { display: none; }
+
+/* ---------- main navigation: bottom tab bar on phones ---------- */
+.nav {
+  position: fixed; inset: auto 0 0 0; z-index: 40;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--whitewash);
+  border-top: 4px solid var(--kemar);
+  box-shadow: 0 -6px 18px rgba(16, 38, 74, .16);
+}
+.nav-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 7px 2px 6px; margin-top: -4px;
+  border: 0; border-top: 4px solid transparent; background: none; color: var(--indigo-800);
+}
+.nav-btn span { text-align: center; line-height: 1.15; }
+.nav-btn b { display: block; font-family: var(--dz); font-size: 1rem; font-weight: 400; }
+.nav-btn small { font-size: .65rem; }
+.nav-btn.is-active { color: var(--kemar); border-top-color: var(--gold); background: linear-gradient(180deg, rgba(200, 147, 31, .22), transparent); }
+
+.main { flex: 1; padding-bottom: 96px; /* clears the bottom bar */ }
+
+/* ---------- links header (external Dzongkha resources) ---------- */
+.linkbar {
+  display: flex; align-items: center; gap: 10px; padding: 7px 12px;
+  background: var(--indigo-900); color: var(--gold-light);
+  border-bottom: 1px solid rgba(240, 207, 122, .35);
+}
+.linkbar-label { flex: none; padding-right: 10px; font-family: var(--dz); font-size: 1.05rem; border-right: 2px solid var(--gold-deep); }
+.linkbar ul {
+  flex: 1; min-width: 0; display: flex; gap: 6px; margin: 0; padding: 0 14px; list-style: none; overflow-x: auto; scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 22px), transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 22px), transparent);
+}
+.linkbar ul::-webkit-scrollbar { display: none; }
+.linkbar li { flex: none; }
+.linkbar a {
+  display: inline-flex; align-items: center; min-height: 36px; padding: 0 13px; white-space: nowrap; line-height: 1.8;
+  font-size: var(--fs-sm); color: var(--whitewash); text-decoration: none;
+  border: 1px solid rgba(240, 207, 122, .45); border-radius: var(--r-pill);
+  transition: background-color .15s, color .15s;
+}
+.linkbar a:hover, .linkbar a:focus-visible { background: var(--gold-light); color: var(--indigo-900); }
+.linkbar .linkbar-all { flex: none; background: var(--gold); border-color: var(--gold-light); color: var(--indigo-900); font-weight: 700; }
+.linkbar .linkbar-all:hover { background: var(--gold-light); }
+
+/* ---------- hero: the dzong at dawn, welcome in the middle ---------- */
+.hero {
+  --art-h: 190px;           /* height of the mountains + dzong picture */
+  position: relative; isolation: isolate; overflow: hidden; text-align: center;
+  background:
+    radial-gradient(60% 70% at 50% 100%, rgba(240, 207, 122, .6), transparent 72%),
+    linear-gradient(180deg, var(--sky-top), var(--sky-low) 80%);
+}
+.hero::before {            /* prayer flags – the one thing that moves */
+  content: ""; position: absolute; z-index: 1; top: 0; left: -30px; right: -30px; height: 76px;
+  background: url("../images/flags.svg") repeat-x left top / auto 76px;
+  animation: sway 7s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.hero::after {             /* mountains and dzong */
+  content: ""; position: absolute; z-index: 0; inset: auto 0 0 0; height: var(--art-h);
+  background: url("../images/hero.svg") no-repeat center bottom / cover;
+  pointer-events: none;
+}
+@keyframes sway { from { transform: translateX(-12px) skewY(-.5deg); } to { transform: translateX(12px) skewY(.5deg); } }
+
+.hero-inner { position: relative; z-index: 2; padding: 64px 16px calc(var(--art-h) + 8px); }
+.welcome {
+  font-family: var(--dz); font-weight: 400; font-size: var(--fs-hero); line-height: 1.6;
+  color: var(--kemar-dark);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .9), 0 4px 18px rgba(240, 207, 122, .8);
+}
+.hero-name { margin-top: 2px; font-family: var(--dz); font-size: var(--fs-lg); color: var(--indigo-800); }
+.hero-tag { max-width: 34ch; margin: 2px auto 0; font-size: var(--fs-sm); color: var(--indigo-800); }
+
+.kemar {                   /* the red band with gold dentils */
+  position: relative; z-index: 2; height: 22px;
+  background:
+    repeating-linear-gradient(90deg, var(--gold) 0 9px, transparent 9px 18px) 0 4px / 100% 3px no-repeat,
+    repeating-linear-gradient(90deg, var(--gold) 0 9px, transparent 9px 18px) 0 15px / 100% 3px no-repeat,
+    var(--kemar);
+}
+
+/* ---------- panels (one per tool) ---------- */
+.panel { display: none; max-width: 960px; margin: 0 auto; padding: 14px 12px 0; }
+.panel.is-active { display: block; animation: panel-in .18s ease-out; }
+@keyframes panel-in { from { opacity: 0; } to { opacity: 1; } }
+
+.foot { padding: 28px 12px 8px; text-align: center; font-size: var(--fs-sm); color: var(--muted); }
+.foot span[lang="dz"] { font-size: 1.05rem; }

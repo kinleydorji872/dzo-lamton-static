@@ -1,0 +1,64 @@
+/* ==========================================================
+   tokens.css  -  colours, fonts, sizes. Change the look of the whole site HERE.
+   Load order:  tokens → base → layout → components → pdf → (tablet, desktop by screen width)
+   ========================================================== */
+
+/* DDC Joyig (install the font on the device, or put DDC_Joyig.ttf in public/fonts/) */
+@font-face {
+  font-family: "DDC Joyig";
+  src: local("DDC Joyig"), local("DDC_Joyig"), url("../fonts/DDC_Joyig.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  /* ---- palette: a dzong at dawn ---- */
+  --whitewash:   #FBFAF6;   /* painted dzong wall – writing surfaces        */
+  --mist:        #EEF1F0;   /* page background                              */
+  --sky-top:     #BCD2E6;   /* dawn sky                                     */
+  --sky-low:     #F3E9D2;   /* horizon glow                                 */
+
+  --indigo-900:  #0A1A36;   /* chrome (matches the KD logo blue)            */
+  --indigo-800:  #10264A;
+  --indigo-700:  #14396F;
+  --indigo-500:  #2D5FA8;
+  --indigo-100:  #DCE6F3;
+
+  --kemar:       #7A1D22;   /* the red band – used for the main actions     */
+  --kemar-dark:  #53121A;
+  --kemar-soft:  #FBECE9;
+
+  --gold:        #C8931F;
+  --gold-light:  #F0CF7A;
+  --gold-deep:   #8F6410;
+
+  --wood:        #47301C;
+  --wood-light:  #6A4A2D;
+
+  --ink:         #1D1A17;
+  --muted:       #5E6470;
+  --line:        #D9D5C8;
+
+  --ok:          #1D6B3A;
+  --warn:        #8A5A00;
+  --danger:      #A3191F;
+
+  /* ---- type ---- */
+  --dz:  "DDC Joyig", "Noto Serif Tibetan", "Jomolhari", "Microsoft Himalaya", "Kailasa", serif;
+  --ui:  "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+
+  --fs-xs: .75rem;
+  --fs-sm: .875rem;
+  --fs-md: 1rem;          /* 16px = 12pt: the size used for Dzongkha text */
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.75rem;
+  --fs-hero: clamp(2.1rem, 7.4vw, 4.4rem);
+
+  /* ---- shape & depth ---- */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-pill: 999px;
+  --tap: 44px;            /* minimum touch size */
+  --shadow-1: 0 1px 2px rgba(16, 38, 74, .14), 0 8px 22px rgba(16, 38, 74, .10);
+  --shadow-2: 0 2px 4px rgba(16, 38, 74, .18), 0 14px 34px rgba(16, 38, 74, .16);
+}

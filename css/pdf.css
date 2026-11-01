@@ -1,0 +1,17 @@
+/* ==========================================================
+   pdf.css  -  how the downloaded PDF / printed page looks (DDC Joyig, 12 pt)
+   Also used by the "Print → Save as PDF" fallback window.
+   ========================================================== */
+.pdf-offscreen { position: fixed; top: 0; left: -10000px; width: 700px; background: #fff; }
+
+.pdf-page { padding: 8px; color: #000; background: #fff; font-family: "DDC Joyig", "Noto Serif Tibetan", "Jomolhari", serif; font-size: 12pt; line-height: 2; }
+.pdf-head { text-align: center; }
+.pdf-head img { width: 80px; height: 80px; border-radius: 50%; }
+.pdf-head h1 { margin: 6px 0; font-size: 20pt; font-weight: 400; color: #7a1d22; }
+.pdf-head h2 { margin: 0 0 10px; padding-bottom: 6px; font-size: 14pt; font-weight: 700; border-bottom: 3px double #b8860b; }
+.pdf-body { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+@media print {
+  body { margin: 0; }
+  .pdf-page { padding: 0; }
+}

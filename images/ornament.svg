@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 18" width="240" height="18">
+<defs><linearGradient id="l" x1="0" x2="1"><stop offset="0" stop-color="#C8931F" stop-opacity="0"/><stop offset="1" stop-color="#C8931F"/></linearGradient>
+<linearGradient id="r" x1="0" x2="1"><stop offset="0" stop-color="#C8931F"/><stop offset="1" stop-color="#C8931F" stop-opacity="0"/></linearGradient></defs>
+<rect x="0" y="8.2" width="102" height="1.6" fill="url(#l)"/><rect x="138" y="8.2" width="102" height="1.6" fill="url(#r)"/>
+<g transform="translate(120 10)" fill="#C8931F"><path d="M0 6 C-5 2 -4 -4 0 -7 C4 -4 5 2 0 6z" transform="rotate(-64)" opacity="0.55"/><path d="M0 6 C-5 2 -4 -4 0 -7 C4 -4 5 2 0 6z" transform="rotate(64)" opacity="0.55"/><path d="M0 6 C-5 2 -4 -4 0 -7 C4 -4 5 2 0 6z" transform="rotate(-32)" opacity="0.8"/><path d="M0 6 C-5 2 -4 -4 0 -7 C4 -4 5 2 0 6z" transform="rotate(32)" opacity="0.8"/><path d="M0 6 C-5 2 -4 -4 0 -7 C4 -4 5 2 0 6z" transform="rotate(0)" opacity="1"/><circle cy="1.5" r="1.8" fill="#F0CF7A"/></g>
+<circle cx="106" cy="9" r="1.6" fill="#C8931F"/><circle cx="134" cy="9" r="1.6" fill="#C8931F"/></svg>
